@@ -12,6 +12,8 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+
+    public PersistentDataSO Data;
     
     private bool m_Started = false;
     private int m_Points;
