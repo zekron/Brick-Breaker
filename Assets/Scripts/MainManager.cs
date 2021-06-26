@@ -13,8 +13,6 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public GameObject GameOverText;
 
-    public PersistentDataSO Data;
-    
     private bool m_Started = false;
     private int m_Points;
     
@@ -60,6 +58,7 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                //SceneLoader.LoadScene("");
             }
         }
     }
@@ -68,6 +67,8 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+
+        SaveSystem.Instance.SetCurrentPlayerScore(point);
     }
 
     public void GameOver()

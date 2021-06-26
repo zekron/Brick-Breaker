@@ -21,11 +21,11 @@ public class SceneLoader : MonoBehaviour
         Application.Quit();
     }
 
-    void LoadScene(string sceneName)
+    public static void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
-    void LoadScene(int sceneIndex)
+    public static void LoadScene(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
     }

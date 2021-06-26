@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4673272b37671e54bbbef4fccb246476, type: 3}
   m_Name: PersistentDataSO
   m_EditorClassIdentifier: 
-  CurrentPlayerName: 
+  CurrentPlayerName: Player 1
   CurrentPlayerScore: 0
