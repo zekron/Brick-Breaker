@@ -11,7 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
-    public GameObject GameOverText;
+    public Text GameOverText;
 
     private bool m_Started = false;
     private int m_Points;
@@ -74,13 +74,16 @@ public class MainManager : MonoBehaviour
     public IEnumerator GameOver()
     {
         m_GameOver = true;
+        GameOverText.gameObject.SetActive(true);
         if (m_Points < SaveSystem.Instance.GetTopScoreInRank(SaveSystem.Instance.GetScoreBoard().Count - 1))
         {
             yield return null;
             m_canRestart = true;
+            GameOverText.text = "GAME OVER\nPress Space to restart";
         }
         else
         {
+            GameOverText.text = "BREAK RECORD\nPlease wait for loading";
             yield return new WaitForSeconds(3);
             SceneLoader.LoadScene("ScoreBoard");
         }
