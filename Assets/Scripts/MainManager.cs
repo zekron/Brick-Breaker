@@ -53,14 +53,13 @@ public class MainManager : MonoBehaviour
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
             }
         }
-        else if (m_GameOver)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                SceneLoader.LoadScene("ScoreBoard");
-            }
-        }
+        //else if (m_GameOver)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Space))
+        //    {
+        //        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //    }
+        //}
     }
 
     void AddPoint(int point)
@@ -68,12 +67,13 @@ public class MainManager : MonoBehaviour
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
 
-        SaveSystem.Instance.SetCurrentPlayerScore(point);
+        SaveSystem.Instance.SetCurrentPlayerScore(m_Points);
     }
 
-    public void GameOver()
+    public IEnumerator GameOver()
     {
         m_GameOver = true;
-        GameOverText.SetActive(true);
+        yield return new WaitForSeconds(3);
+        SceneLoader.LoadScene("ScoreBoard");
     }
 }

@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
-    private static SaveSystem _instance;
-
     [SerializeField] private PersistentDataSO PersistentData;
 
+    private static SaveSystem _instance = default;
     public static SaveSystem Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new SaveSystem();
+                _instance = FindObjectOfType<SaveSystem>();
             }
             return _instance;
         }

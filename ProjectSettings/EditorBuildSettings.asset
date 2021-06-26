@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Welcome.unity
     guid: be5d3559cd942b948abc39591f0428bd
   - enabled: 1
-    path: Assets/Scenes/Main.unity
+    path: Assets/Scenes/main.unity
     guid: 78a510c781f19db4da14f78ebb30946a
+  - enabled: 1
+    path: Assets/Scenes/ScoreBoard.unity
+    guid: e8586c2a4385540438cf20d8f66888e0
   m_configObjects: {}
