@@ -11,6 +11,7 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] private GameObject _scoreGO;
     [SerializeField] private GameObject _inputFieldGO;
     [SerializeField] private InputField _inputFieldPlayerName;
+    [SerializeField] private GameObject _buttonRestartGO;
 
     private Text[] _rankTexts;
     private Text[] _nameTexts;
@@ -45,6 +46,11 @@ public class ScoreBoard : MonoBehaviour
         StartCoroutine(YieldInit());
     }
 
+    public void RestartGame()
+    {
+        SceneLoader.LoadScene("main");
+    }
+
     private IEnumerator YieldInit()
     {
         Tuple<string, int> temp = SaveSystem.Instance.GetCurrentPlayer();
@@ -54,6 +60,7 @@ public class ScoreBoard : MonoBehaviour
 
         InitScoreBoardText();
         _inputFieldGO.SetActive(false);
+        _buttonRestartGO.SetActive(true);
     }
 
     private void InitScoreBoardText()
