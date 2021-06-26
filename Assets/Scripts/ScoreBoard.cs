@@ -11,6 +11,7 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] private GameObject _scoreGO;
     [SerializeField] private GameObject _inputFieldGO;
     [SerializeField] private InputField _inputFieldPlayerName;
+    [SerializeField] private GameObject _buttonRestartGO;
 
     private Text[] _rankTexts;
     private Text[] _nameTexts;
@@ -27,22 +28,27 @@ public class ScoreBoard : MonoBehaviour
 
     void OnDestroy()
     {
-        for (int i = 0; i < _rankTexts.Length; i++)
-        {
-            _rankTexts[i].gameObject.SetActive(false);
-            _rankTexts[i].color = Color.white;
-            _nameTexts[i].gameObject.SetActive(false);
-            _nameTexts[i].color = Color.white;
-            _scoreTexts[i].gameObject.SetActive(false);
-            _scoreTexts[i].color = Color.white;
-        }
-        _inputFieldGO.SetActive(true);
+        //for (int i = 0; i < _rankTexts.Length; i++)
+        //{
+        //    _rankTexts[i].gameObject.SetActive(false);
+        //    _rankTexts[i].color = Color.white;
+        //    _nameTexts[i].gameObject.SetActive(false);
+        //    _nameTexts[i].color = Color.white;
+        //    _scoreTexts[i].gameObject.SetActive(false);
+        //    _scoreTexts[i].color = Color.white;
+        //}
+        //_inputFieldGO.SetActive(true);
     }
 
     public void SetCurrentPlayerName()
     {
         SaveSystem.Instance.SetCurrentPlayerName(_inputFieldPlayerName.text);
         StartCoroutine(YieldInit());
+    }
+
+    public void RestartGame()
+    {
+        SceneLoader.LoadScene("main");
     }
 
     private IEnumerator YieldInit()
@@ -54,6 +60,7 @@ public class ScoreBoard : MonoBehaviour
 
         InitScoreBoardText();
         _inputFieldGO.SetActive(false);
+        _buttonRestartGO.SetActive(true);
     }
 
     private void InitScoreBoardText()
