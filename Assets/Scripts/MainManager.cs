@@ -58,6 +58,7 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                //SceneLoader.LoadScene("");
             }
         }
     }
@@ -66,6 +67,8 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+
+        SaveSystem.Instance.SetCurrentPlayerScore(point);
     }
 
     public void GameOver()

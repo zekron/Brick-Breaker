@@ -5,20 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public PersistentDataSO Data;
-
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(gameObject);
     }
 
-    public static void StartGame()
+    public void StartGame()
     {
         LoadScene("Main");
     }
 
-    public static void ExitGame()
+    public void ExitGame()
     {
         Application.Quit();
     }
