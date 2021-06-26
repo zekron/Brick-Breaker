@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +29,11 @@ public class SaveSystem : MonoBehaviour
 
     public void AddScoreBoard(string name, int score)
     {
-        PersistentData.TopScoreBoard.Add(name, score);
+        PersistentData.AddTopScoreBoard(name, score);
+    }
+    public int GetTopScoreInRank(int rank)
+    {
+        return PersistentData.GetTopScoreBoardInRank(rank);
     }
     public IDictionary<string, int> GetScoreBoard()
     {
@@ -40,12 +45,24 @@ public class SaveSystem : MonoBehaviour
         SetCurrentPlayerName(name);
         SetCurrentPlayerScore(score);
     }
+    public Tuple<string, int> GetCurrentPlayer()
+    {
+        return new Tuple<string, int>(GetCurrentPlayerName(), GetCurrentPlayerScore());
+    }
     public void SetCurrentPlayerName(string name)
     {
         PersistentData.CurrentPlayerName = name;
     }
+    public string GetCurrentPlayerName()
+    {
+        return PersistentData.CurrentPlayerName;
+    }
     public void SetCurrentPlayerScore(int score)
     {
         PersistentData.CurrentPlayerScore = score;
+    }
+    public int GetCurrentPlayerScore()
+    {
+        return PersistentData.CurrentPlayerScore;
     }
 }
