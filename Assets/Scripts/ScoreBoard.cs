@@ -27,16 +27,16 @@ public class ScoreBoard : MonoBehaviour
 
     void OnDestroy()
     {
-        for (int i = 0; i < _rankTexts.Length; i++)
-        {
-            _rankTexts[i].gameObject.SetActive(false);
-            _rankTexts[i].color = Color.white;
-            _nameTexts[i].gameObject.SetActive(false);
-            _nameTexts[i].color = Color.white;
-            _scoreTexts[i].gameObject.SetActive(false);
-            _scoreTexts[i].color = Color.white;
-        }
-        _inputFieldGO.SetActive(true);
+        //for (int i = 0; i < _rankTexts.Length; i++)
+        //{
+        //    _rankTexts[i].gameObject.SetActive(false);
+        //    _rankTexts[i].color = Color.white;
+        //    _nameTexts[i].gameObject.SetActive(false);
+        //    _nameTexts[i].color = Color.white;
+        //    _scoreTexts[i].gameObject.SetActive(false);
+        //    _scoreTexts[i].color = Color.white;
+        //}
+        //_inputFieldGO.SetActive(true);
     }
 
     public void SetCurrentPlayerName()
