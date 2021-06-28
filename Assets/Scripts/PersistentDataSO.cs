@@ -23,12 +23,12 @@ public class PersistentDataSO : ScriptableObject
 
     public int GetRecordScoreInRank(int rank)
     {
-        int cnt = 0;
+        int cnt = topScoreBoard.Count - 1;
         foreach (var item in topScoreBoard)
         {
-            if (cnt < rank)
+            if (cnt > rank)
             {
-                cnt++;
+                cnt--;
                 continue;
             }
             else
@@ -38,12 +38,12 @@ public class PersistentDataSO : ScriptableObject
     }
     public string GetRecordNameInRank(int rank)
     {
-        int cnt = 0;
+        int cnt = topScoreBoard.Count - 1;
         foreach (var item in topScoreBoard)
         {
-            if (cnt < rank)
+            if (cnt > rank)
             {
-                cnt++;
+                cnt--;
                 continue;
             }
             else

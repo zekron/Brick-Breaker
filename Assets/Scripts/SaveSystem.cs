@@ -36,7 +36,6 @@ public class SaveSystem : MonoBehaviour
         //TODO
         string json = JsonConvert.SerializeObject(PersistentData);
         File.WriteAllText(Path.Combine(Application.persistentDataPath, FILE_NAME), json);
-        Debug.Log(json);
     }
 
     private void LoadFile()

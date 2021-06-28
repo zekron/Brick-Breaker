@@ -78,7 +78,7 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
 
         System.Tuple<int, string> tuple = SaveSystem.Instance.GetRecordInRank(0);
-        if (tuple.Item1 < m_Points)
+        if (tuple.Item1 <= m_Points)
         {
             BestScoreText.text = $"Best Score : {SaveSystem.Instance.GetCurrentPlayerName()} -> {m_Points}";
         }
