@@ -8,16 +8,10 @@ using UnityEngine;
 public class PersistentDataSO : ScriptableObject
 {
     private SortedDictionary<int, List<string>> topScoreBoard = new SortedDictionary<int, List<string>>();
-
-    public string CurrentPlayerName;
-    public int CurrentPlayerScore;
+    public string CurrentPlayerName = "New Player";
+    public int CurrentPlayerScore = 0;
 
     public SortedDictionary<int, List<string>> TopScoreBoard { get => topScoreBoard; }
-
-    public void LoadRecords(SortedDictionary<int, List<string>> records)
-    {
-        topScoreBoard = records;
-    }
 
     public void AddRecord(string name, int score)
     {
@@ -27,7 +21,7 @@ public class PersistentDataSO : ScriptableObject
         topScoreBoard[score].Add(name);
     }
 
-    public int GetRecordInRank(int rank)
+    public int GetRecordScoreInRank(int rank)
     {
         int cnt = 0;
         foreach (var item in topScoreBoard)
@@ -40,6 +34,21 @@ public class PersistentDataSO : ScriptableObject
             else
                 return item.Key;
         }
-        return -1;
+        return 0;
+    }
+    public string GetRecordNameInRank(int rank)
+    {
+        int cnt = 0;
+        foreach (var item in topScoreBoard)
+        {
+            if (cnt < rank)
+            {
+                cnt++;
+                continue;
+            }
+            else
+                return item.Value[0];
+        }
+        return "NULL";
     }
 }

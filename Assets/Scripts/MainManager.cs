@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public Text GameOverText;
 
     private bool m_Started = false;
@@ -37,6 +38,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        RefreshText();
     }
 
     private void Update()
@@ -66,9 +69,23 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
+        RefreshText();
+        SaveSystem.Instance.SetCurrentPlayerScore(m_Points);
+    }
+
+    void RefreshText()
+    {
         ScoreText.text = $"Score : {m_Points}";
 
-        SaveSystem.Instance.SetCurrentPlayerScore(m_Points);
+        System.Tuple<int, string> tuple = SaveSystem.Instance.GetRecordInRank(0);
+        if (tuple.Item1 < m_Points)
+        {
+            BestScoreText.text = $"Best Score : {SaveSystem.Instance.GetCurrentPlayerName()} -> {m_Points}";
+        }
+        else
+        {
+            BestScoreText.text = $"Best Score : {tuple.Item2} -> {tuple.Item1}";
+        }
     }
 
     public IEnumerator GameOver()
@@ -76,7 +93,7 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.gameObject.SetActive(true);
         if (SaveSystem.Instance.GetRrcordCount() >= ScoreBoard.MAX_RECORD_COUNT &&
-            m_Points < SaveSystem.Instance.GetRecordInRank(SaveSystem.Instance.GetRrcordCount() - 1))
+            m_Points < SaveSystem.Instance.GetRecordScoreInRank(SaveSystem.Instance.GetRrcordCount() - 1))
         {
             yield return null;
             m_canRestart = true;

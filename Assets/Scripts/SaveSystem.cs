@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class SaveSystem : MonoBehaviour
 {
     [SerializeField] private PersistentDataSO PersistentData;
 
-    private const string FILE_NAME = "";
+    private const string FILE_NAME = "Brick.Breaker";
     private static SaveSystem _instance = default;
     public static SaveSystem Instance
     {
@@ -33,19 +34,20 @@ public class SaveSystem : MonoBehaviour
     private void SaveFile()
     {
         //TODO
-        string json = JsonUtility.ToJson(PersistentData);
+        string json = JsonConvert.SerializeObject(PersistentData);
         File.WriteAllText(Path.Combine(Application.persistentDataPath, FILE_NAME), json);
+        Debug.Log(json);
     }
 
     private void LoadFile()
     {
         string path = Path.Combine(Application.persistentDataPath, FILE_NAME);
+
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            PersistentDataSO data = JsonUtility.FromJson<PersistentDataSO>(json);
-
-            PersistentData.LoadRecords(data.TopScoreBoard);
+            PersistentDataSO data = JsonConvert.DeserializeObject<PersistentDataSO>(json);
+            PersistentData = data;
         }
     }
 
@@ -55,9 +57,17 @@ public class SaveSystem : MonoBehaviour
         SaveFile();
     }
 
-    public int GetRecordInRank(int rank)
+    public Tuple<int, string> GetRecordInRank(int rank)
     {
-        return PersistentData.GetRecordInRank(rank);
+        return new Tuple<int, string>(GetRecordScoreInRank(rank), GetRecordNameInRank(rank));
+    }
+    public int GetRecordScoreInRank(int rank)
+    {
+        return PersistentData.GetRecordScoreInRank(rank);
+    }
+    public string GetRecordNameInRank(int rank)
+    {
+        return PersistentData.GetRecordNameInRank(rank);
     }
     public int GetRrcordCount()
     {
