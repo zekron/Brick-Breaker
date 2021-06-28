@@ -17,13 +17,27 @@ public class ScoreBoard : MonoBehaviour
     private Text[] _nameTexts;
     private Text[] _scoreTexts;
     // Start is called before the first frame update
+
+    public const int MAX_RECORD_COUNT = 10;
     void Start()
     {
         _rankTexts = _rankGO.GetComponentsInChildren<Text>();
         _nameTexts = _nameGO.GetComponentsInChildren<Text>();
         _scoreTexts = _scoreGO.GetComponentsInChildren<Text>();
 
-        //DontDestroyOnLoad(gameObject);
+        for (int i = 0; i < _rankTexts.Length; i++)
+        {
+            _rankTexts[i].gameObject.SetActive(false);
+            _rankTexts[i].color = Color.white;
+            _nameTexts[i].gameObject.SetActive(false);
+            _nameTexts[i].color = Color.white;
+            _scoreTexts[i].gameObject.SetActive(false);
+            _scoreTexts[i].color = Color.white;
+        }
+
+        _inputFieldPlayerName.text = SaveSystem.Instance.GetCurrentPlayerName();
+
+        _inputFieldGO.SetActive(true);
     }
 
     void OnDestroy()
@@ -37,7 +51,6 @@ public class ScoreBoard : MonoBehaviour
         //    _scoreTexts[i].gameObject.SetActive(false);
         //    _scoreTexts[i].color = Color.white;
         //}
-        //_inputFieldGO.SetActive(true);
     }
 
     public void SetCurrentPlayerName()
@@ -54,7 +67,7 @@ public class ScoreBoard : MonoBehaviour
     private IEnumerator YieldInit()
     {
         Tuple<string, int> temp = SaveSystem.Instance.GetCurrentPlayer();
-        SaveSystem.Instance.AddScoreBoard(temp.Item1, temp.Item2);
+        SaveSystem.Instance.AddRecord(temp.Item1, temp.Item2);
 
         yield return new WaitForSeconds(2);
 
@@ -65,25 +78,24 @@ public class ScoreBoard : MonoBehaviour
 
     private void InitScoreBoardText()
     {
-        IDictionary<string, int> dict = SaveSystem.Instance.GetScoreBoard();
-        string[] names = new string[dict.Keys.Count];
-        int[] scores = new int[dict.Values.Count];
+        List<Tuple<int, string>> records = SaveSystem.Instance.GetFullRecords();
 
-        dict.Keys.CopyTo(names, 0);
-        dict.Values.CopyTo(scores, 0);
-        for (int i = 0; i < dict.Count; i++)
+        int dCount = records.Count;
+        for (int i = 0; i < dCount; i++)
         {
-            _nameTexts[i].text = names[i];
-            _nameTexts[i].gameObject.SetActive(true);
+            _rankTexts[dCount - 1 - i].gameObject.SetActive(true);
 
-            _scoreTexts[i].text = scores[i].ToString();
-            _scoreTexts[i].gameObject.SetActive(true);
+            _nameTexts[dCount - 1 - i].text = records[i].Item2;
+            _nameTexts[dCount - 1 - i].gameObject.SetActive(true);
 
-            if (names[i] == SaveSystem.Instance.GetCurrentPlayerName())
+            _scoreTexts[dCount - 1 - i].text = records[i].Item1.ToString();
+            _scoreTexts[dCount - 1 - i].gameObject.SetActive(true);
+
+            if (records[i].Item2 == SaveSystem.Instance.GetCurrentPlayerName())
             {
-                _rankTexts[i].color = Color.green;
-                _nameTexts[i].color = Color.green;
-                _scoreTexts[i].color = Color.green;
+                _rankTexts[dCount - 1 - i].color = Color.green;
+                _nameTexts[dCount - 1 - i].color = Color.green;
+                _scoreTexts[dCount - 1 - i].color = Color.green;
             }
         }
     }

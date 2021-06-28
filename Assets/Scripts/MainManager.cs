@@ -75,8 +75,8 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.gameObject.SetActive(true);
-        if (SaveSystem.Instance.GetScoreBoard().Count > 0 &&
-            m_Points < SaveSystem.Instance.GetTopScoreInRank(SaveSystem.Instance.GetScoreBoard().Count - 1))
+        if (SaveSystem.Instance.GetRrcordCount() >= ScoreBoard.MAX_RECORD_COUNT &&
+            m_Points < SaveSystem.Instance.GetRecordInRank(SaveSystem.Instance.GetRrcordCount() - 1))
         {
             yield return null;
             m_canRestart = true;

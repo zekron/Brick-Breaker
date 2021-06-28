@@ -8,6 +8,7 @@ public class SaveSystem : MonoBehaviour
 {
     [SerializeField] private PersistentDataSO PersistentData;
 
+    private const string FILE_NAME = "";
     private static SaveSystem _instance = default;
     public static SaveSystem Instance
     {
@@ -25,19 +26,55 @@ public class SaveSystem : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
+
+        LoadFile();
     }
 
-    public void AddScoreBoard(string name, int score)
+    private void SaveFile()
     {
-        PersistentData.AddTopScoreBoard(name, score);
+        //TODO
+        string json = JsonUtility.ToJson(PersistentData);
+        File.WriteAllText(Path.Combine(Application.persistentDataPath, FILE_NAME), json);
     }
-    public int GetTopScoreInRank(int rank)
+
+    private void LoadFile()
     {
-        return PersistentData.GetTopScoreBoardInRank(rank);
+        string path = Path.Combine(Application.persistentDataPath, FILE_NAME);
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            PersistentDataSO data = JsonUtility.FromJson<PersistentDataSO>(json);
+
+            PersistentData.LoadRecords(data.TopScoreBoard);
+        }
     }
-    public IDictionary<string, int> GetScoreBoard()
+
+    public void AddRecord(string name, int score)
     {
-        return PersistentData.TopScoreBoard;
+        PersistentData.AddRecord(name, score);
+        SaveFile();
+    }
+
+    public int GetRecordInRank(int rank)
+    {
+        return PersistentData.GetRecordInRank(rank);
+    }
+    public int GetRrcordCount()
+    {
+        return PersistentData.TopScoreBoard.Count;
+    }
+    public List<Tuple<int, string>> GetFullRecords()
+    {
+        List<Tuple<int, string>> records = new List<Tuple<int, string>>(ScoreBoard.MAX_RECORD_COUNT);
+
+        foreach (var record in PersistentData.TopScoreBoard)
+        {
+            foreach (var name in record.Value)
+            {
+                records.Add(new Tuple<int, string>(record.Key, name));
+            }
+        }
+        return records;
     }
 
     public void SetCurrentPlayer(string name, int score)
